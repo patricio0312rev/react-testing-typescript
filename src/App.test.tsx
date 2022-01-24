@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import App from './App';
 import { getUser } from './get-user';
 import { mocked } from 'ts-jest/utils';
@@ -40,8 +40,9 @@ describe("When everything is OK", () => {
 
     screen.getAllByRole('textbox');
     expect(screen.getAllByRole('textbox')[0]).toBeInTheDocument();
-    expect(screen.getAllByRole('textbox')[1]).toBeInTheDocument();
-    expect(screen.getAllByRole('textbox').length).toEqual(2);
+    //expect(screen.getAllByRole('textbox')[1]).toBeInTheDocument();
+    //expect(screen.getAllByRole('textbox').length).toEqual(2);
+    expect(screen.getAllByRole('textbox').length).toEqual(1);
   });
 
   test("Should select a label element by its text", () => {
@@ -49,13 +50,13 @@ describe("When everything is OK", () => {
   });
 
   test("Should select input element by placeholder text", () => {
-    //screen.getByPlaceholderText('Example');
-    screen.getAllByPlaceholderText('Example');
+    screen.getByPlaceholderText('Example');
+    //screen.getAllByPlaceholderText('Example');
   });
 
   test("Should select the input element by its role with queryByRole", () => {
-    //screen.queryByRole('textbox');
-    screen.queryAllByRole('textbox');
+    screen.queryByRole('textbox');
+    //screen.queryAllByRole('textbox');
   });
 
   test("Should not find the role 'whatever' in our component", () => {
@@ -86,5 +87,21 @@ describe("When the component fetches the user successfully", () => {
     expect(screen.queryByText(/Username/)).toBeNull();
     expect(await screen.findByText(/Username/)).toBeInTheDocument();
     expect(await screen.findByText(/name/)).toBeInTheDocument();
+  });
+});
+
+
+describe('When the user enters some text in the input element', () => {
+  test('Should display the text in the screen', async () => {
+    render(<App />);
+    await waitFor(() => expect(mockGetUser).toHaveBeenCalled());
+
+    expect(screen.getByText(/You typed: .../));
+
+    fireEvent.change(screen.getByRole('textbox'), {
+      target: { value: 'Patricio' }
+    });
+
+    expect(screen.getByText(/You typed: Patricio/));
   });
 });
