@@ -18,12 +18,16 @@ describe("When everything is OK", () => {
   }); 
 
   test("Should select the children that is being passed to the CustomInput component", () => {
-    screen.getByText('Input:');
-    screen.getByText(/Input/);
+    // Fails if it finds more than 1 element
+    //screen.getByText('Input:');
+    //screen.getByText(/Input/);
+    screen.getAllByText('Input:');
+    screen.getAllByText(/Input/);
 
     let error;
     try {
-      screen.getByText('Input');
+      // screen.getByText('Input');
+      screen.getAllByText('Input');
     } catch(err) {
       error = err;
     }
@@ -31,8 +35,13 @@ describe("When everything is OK", () => {
   });
 
   test("Should select the input element by its role", () => {
-    screen.getByRole('textbox');
-    expect(screen.getByRole('textbox')).toBeInTheDocument();
+    //screen.getByRole('textbox');
+    //expect(screen.getByRole('textbox')).toBeInTheDocument();
+
+    screen.getAllByRole('textbox');
+    expect(screen.getAllByRole('textbox')[0]).toBeInTheDocument();
+    expect(screen.getAllByRole('textbox')[1]).toBeInTheDocument();
+    expect(screen.getAllByRole('textbox').length).toEqual(2);
   });
 
   test("Should select a label element by its text", () => {
@@ -40,11 +49,13 @@ describe("When everything is OK", () => {
   });
 
   test("Should select input element by placeholder text", () => {
-    screen.getByPlaceholderText('Example');
+    //screen.getByPlaceholderText('Example');
+    screen.getAllByPlaceholderText('Example');
   });
 
   test("Should select the input element by its role with queryByRole", () => {
-    screen.queryByRole('textbox');
+    //screen.queryByRole('textbox');
+    screen.queryAllByRole('textbox');
   });
 
   test("Should not find the role 'whatever' in our component", () => {
