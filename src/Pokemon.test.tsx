@@ -26,7 +26,7 @@ describe('When user enters a valid pokemon name', () => {
         mockedAxios.get.mockResolvedValueOnce({ data: { abilities }});
         render(<Pokemon />);
         await userEvent.type(screen.getByRole('textbox'), 'ditto');
-        await userEvent.type(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button'));
 
         const returnAbilities = await screen.findAllByRole('listitem');
         expect(returnAbilities).toHaveLength(2);
@@ -39,7 +39,7 @@ describe('When a user enters an invalid pokemon name', () => {
         render(<Pokemon />);
 
         await userEvent.type(screen.getByRole('textbox'), 'ditto');
-        await userEvent.type(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button'));
 
         const message = await screen.findByText(/Something went wrong/);
         expect(message).toBeInTheDocument();
