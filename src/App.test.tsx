@@ -1,5 +1,4 @@
 import { render, screen } from '@testing-library/react';
-import { text } from 'stream/consumers';
 import App from './App';
 
 describe("When everything is OK", () => {
@@ -35,5 +34,13 @@ describe("When everything is OK", () => {
 
   test("Should select input element by placeholder text", () => {
     screen.getByPlaceholderText('Example');
+  });
+
+  test("Should select the input element by its role with queryByRole", () => {
+    screen.queryByRole('textbox');
+  });
+
+  test("Should not find the role 'whatever' in our component", () => {
+    expect(screen.queryByRole('whatever')).toBeNull();
   });
 });
