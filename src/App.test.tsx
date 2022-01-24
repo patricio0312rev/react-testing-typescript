@@ -1,5 +1,6 @@
 import React from 'react';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import App from './App';
 import { getUser } from './get-user';
 import { mocked } from 'ts-jest/utils';
@@ -98,9 +99,10 @@ describe('When the user enters some text in the input element', () => {
 
     expect(screen.getByText(/You typed: .../));
 
-    fireEvent.change(screen.getByRole('textbox'), {
-      target: { value: 'Patricio' }
-    });
+    // fireEvent.change(screen.getByRole('textbox'), {
+    //   target: { value: 'Patricio' }
+    // });
+    await userEvent.type(screen.getByRole('textbox'), 'Patricio');
 
     expect(screen.getByText(/You typed: Patricio/));
   });
