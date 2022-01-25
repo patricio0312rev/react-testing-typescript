@@ -14,6 +14,10 @@ describe("When everything is OK", () => {
     await waitFor(() => expect(mockGetUser).toHaveBeenCalled())
   });
 
+  test("Extra test to check git", () => {
+    screen.debug();
+  }); 
+
   test("Should render the app component without crashing", () => {
     screen.debug();
   }); 
